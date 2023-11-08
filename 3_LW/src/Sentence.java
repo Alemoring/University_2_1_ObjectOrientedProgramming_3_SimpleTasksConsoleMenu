@@ -36,7 +36,8 @@ public class Sentence {
         reverse = firstch + restofs;
         reverse = reverse.trim();
         reverse += ".";
-
+        System.out.println("Исходное предложение: " + str);
+        System.out.print("Перевёрнутое предложение: ");
         return reverse;
     }
 
@@ -54,6 +55,8 @@ public class Sentence {
             c = str.charAt(i);
         }
         result.buildWord('.');
+        System.out.println("Исходное предложение: " + str);
+        System.out.print("Изменённое предложение: ");
         return result;
     }
 
@@ -83,6 +86,8 @@ public class Sentence {
                 c = str.charAt(i);
             }
         }
+        System.out.println("Исходное предложение: " + str);
+        System.out.print("Количество слов длинной " + length + " = ");
         return k;
     }
 
