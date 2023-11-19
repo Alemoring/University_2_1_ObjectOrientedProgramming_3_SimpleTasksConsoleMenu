@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -6,10 +7,50 @@ public class Menu {
     static private int choicetodo = -1;
     static private int choiceinput = -1;
     static private int choiceoutput = -1;
+    static private int sentenceormatrix = -1;
     static private Matrix m;
     static private Sentence s;
 
-    static public void start() {
+    public static int readChoice(){
+        scanner = new Scanner(System.in);
+        int readed = -1;
+        try {
+            readed = Integer.parseInt(scanner.nextLine());
+        }
+        catch (NumberFormatException e){
+            System.out.println("Пожалуйстаа вводите только существующие пункты меню ;)");
+            readed = readChoice();
+        }
+        return readed;
+    }
+    public static int readValue(){
+        scanner = new Scanner(System.in);
+        int readed = -1;
+        try {
+            readed = Integer.parseInt(scanner.nextLine());
+        }
+        catch (NumberFormatException e){
+            System.out.println("Введено неверное значение :(");
+            System.out.print("Попробуйте снова, у вас всё получится: ");
+            readed = readValue();
+        }
+        return readed;
+    }
+    public static String readLine(){
+        scanner = new Scanner(System.in);
+        String readed = "";
+        try {
+            readed = scanner.nextLine();
+        }
+        catch (NumberFormatException e){
+            System.out.println("Что-то пошло не так :(");
+            System.out.print("Попробуйте снова, у вас всё получится: ");
+            readed = readLine();
+        }
+        return readed;
+    }
+
+     public static void start() {
         System.out.println("Приветствую!");
         System.out.println("Какое задание вы хотите выполнить?");
         System.out.println("1) Подсчитать относительную частоту встречаемости числа в двумерном массиве");
@@ -18,21 +59,14 @@ public class Menu {
         System.out.println("3) Заменить все согласные буквы предложения на знак \"-\"");
         System.out.println("4) Подсчитать количество слов заданной длинны в предложении");
         System.out.println("5) Выйти из программы");
-        try {
-            choicetodo = scanner.nextInt();
-        }
-        catch (InputMismatchException e){
-            System.out.println("Словил конкретное исключение");
-            scanner = new Scanner(System.in);
-        }
-        System.out.println("Вы ввели: " + choicetodo);
+        choicetodo = readChoice();
     }
 
-    static public void chooseInput(int i) {
+     public static void chooseInput() {
         choiceinput = -1;
-        while (choiceinput != 5){
+        do{
             System.out.println("Как хотите осуществить ввод?");
-            if(i != 1){
+            if(sentenceormatrix == 1){
                 System.out.println("1) Предложение \"May the force be with you.\"");
             }
             else{
@@ -43,18 +77,11 @@ public class Menu {
             System.out.println("4) Из бинарного файла");
             System.out.println("5) Вернуться на предыдущий пункт");
             System.out.println("6) Выйти из программы");
-            try {
-                choiceinput = scanner.nextInt();
-            }
-            catch (InputMismatchException e){
-                System.out.println("Словил конкретное исключение");
-                scanner = new Scanner(System.in);
-            }
-            System.out.println("Вы ввели: " + choiceinput);
+            choiceinput = readChoice();
             switch (choiceinput){
                 case 1: // Случайная матрица 4x4 или Предложение "May the force be with you."
                     System.out.println("1 пункт");
-                    if(i != 1){
+                    if(sentenceormatrix == 1){
                         int length = 0;
                         if (choicetodo == 2){
                             s = new Sentence();
@@ -65,64 +92,81 @@ public class Menu {
                         else {
                             s = new Sentence();
                             System.out.println("Введите исходную длину слова: ");
-                            try {
-                                length = scanner.nextInt();
-                            }
-                            catch (InputMismatchException e){
-                                System.out.println("Словил конкретное исключение");
-                                scanner = new Scanner(System.in);
-                            }
+                            length = readValue();
                         }
-                        Menu.chooseOutput(2, length, 0);
+                        Menu.chooseOutput(length, 0);
                     }
                     else{
                         int x = 0;
-                        System.out.println("Введите искомое число: ");
-                        try {
-                            x = scanner.nextInt();
-                        }
-                        catch (InputMismatchException e){
-                            System.out.println("Словил конкретное исключение");
-                            scanner = new Scanner(System.in);
-                        }
+                        System.out.print("Введите искомое число: ");
+                        x = readValue();
                         m = new Matrix();
-                        Menu.chooseOutput(1, 0, x);
+                        Menu.chooseOutput(0, x);
                     }
                     choiceinput = 5;
                     break;
                 case 2: // Из консоли
                     System.out.println("2 пункт");
-                    if(i != 1){
-                        s = new Sentence();
-                        Menu.chooseOutput(2, 5, 0);
+                    if(sentenceormatrix == 1){
+                        String line = "";
+                        int length = 0;
+                        if (choicetodo == 2){
+                            System.out.print("Введите предложение, которое хотите перевернуть: ");
+                            line = readLine();
+                        }
+                        else if (choicetodo == 3){
+                            System.out.print("Введите предложение, в котором хотите заменить все согласные на \"-\": ");
+                            line = readLine();
+                        }
+                        else {
+                            System.out.print("Введите предложение, в котором хотите подсчитать слова: ");
+                            line = readLine();
+                            System.out.print("Введите исходную длину слова: ");
+                            length = readValue();
+                        }
+                        s = new Sentence(line);
+                        Menu.chooseOutput(length, 0);
                     }
                     else{
-                        System.out.println("Ещё не готово");
-                        Menu.chooseOutput(1, 0, 5);
+                        int rank = 1;
+                        System.out.print("Введите размерность матрицы: ");
+                        rank = readValue();
+                        int[][] matrix = new int[rank][rank];
+                        for (int k = 0; k < rank; k++){
+                            for (int j = 0; j < rank; j++){
+                                System.out.print("Введите [" + (k+1) + "] [" + (j+1) + "] элемент матрицы: ");
+                                matrix[k][j] = readValue();
+                            }
+                        }
+                        int x = 0;
+                        System.out.print("Введите искомое число: ");
+                        x = readValue();
+                        m = new Matrix(matrix);
+                        Menu.chooseOutput(0, x);
                     }
                     choiceinput = 5;
                     break;
                 case 3: // Из текстового файла
                     System.out.println("3 пункт");
-                    if(i != 1){
+                    if(sentenceormatrix == 1){
                         System.out.println("Ещё не готово");
-                        Menu.chooseOutput(2, 5, 0);
+                        Menu.chooseOutput(5, 0);
                     }
                     else{
                         System.out.println("Ещё не готово");
-                        Menu.chooseOutput(1, 0, 5);
+                        Menu.chooseOutput(0, 5);
                     }
                     choiceinput = 5;
                     break;
                 case 4: // Из бинарного файла
                     System.out.println("4 пункт");
-                    if(i != 1){
+                    if(sentenceormatrix == 1){
                         System.out.println("Ещё не готово");
-                        Menu.chooseOutput(2, 5, 0);
+                        Menu.chooseOutput(5, 0);
                     }
                     else{
                         System.out.println("Ещё не готово");
-                        Menu.chooseOutput(1, 0, 5);
+                        Menu.chooseOutput(0, 5);
                     }
                     choiceinput = 5;
                     break;
@@ -132,13 +176,10 @@ public class Menu {
                 case 6: // Выйти из программы
                     System.out.println("Произвожу выход из программы");
                     System.exit(0);
-                default:
-                    System.out.println("Что-то не то");
-                    break;
             }
-        }
+        }while (choiceinput != 5);
     }
-    static public void chooseOutput(int i, int length, int x){
+     public static void chooseOutput(int length, int x){
         choiceoutput = -1;
         while (choiceoutput != 4){
             System.out.println("Как хотите осуществить вывод результата?");
@@ -147,19 +188,10 @@ public class Menu {
             System.out.println("3) В бинарный файл");
             System.out.println("4) Вернуться на предыдущий пункт");
             System.out.println("5) Выйти из программы");
-            try {
-                choiceoutput = scanner.nextInt();
-            }
-            catch (InputMismatchException e){
-                System.out.println("Словил конкретное исключение");
-                scanner = new Scanner(System.in);
-            }
-            System.out.println("Вы ввели: " + choiceoutput);
+            choiceoutput = readChoice();
             switch (choiceoutput){
                 case 1: // В консоль
-                    System.out.println("1 пункт");
-                    System.out.println(choicetodo);
-                    if(i != 1){
+                    if(sentenceormatrix == 1){
                         if (choicetodo == 2){
                             System.out.println(s.reverseSentence());
                         }
@@ -172,8 +204,9 @@ public class Menu {
                     }
                     else{
                         m.print();
-                        System.out.println(m.findFrequency(x));
+                        System.out.println(m.findFrequency(x) + "%");
                     }
+                    System.out.println();
                     choiceoutput = 4;
                     break;
                 case 2: // В текстовый файл
@@ -190,17 +223,17 @@ public class Menu {
                 case 5: // Выйти из программы
                     System.out.println("Произвожу выход из программы");
                     System.exit(0);
-                default:
-                    System.out.println("Что-то не то");
-                    break;
             }
         }
     }
-    static public int getChoicetodo(){
+     public static int getChoicetodo(){
         return choicetodo;
     }
 
-    static public int getChoiceinput() {
+     public static int getChoiceinput() {
         return choiceinput;
+    }
+     public static void setSentenceormatrix(int x){
+        sentenceormatrix = x;
     }
 }

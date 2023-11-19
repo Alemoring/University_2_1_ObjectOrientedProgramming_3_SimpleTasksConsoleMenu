@@ -13,6 +13,10 @@ public class Sentence {
     }
 
     public String reverseSentence() {
+        if(str.charAt(len) != '.'){
+            str += ".";
+            len = str.length() - 1;
+        }
         String reverse = "";
         char c = Character.toLowerCase(str.charAt(0));
         int i = 0;
@@ -36,35 +40,37 @@ public class Sentence {
         reverse = firstch + restofs;
         reverse = reverse.trim();
         reverse += ".";
-        System.out.println("Исходное предложение: " + str);
-        System.out.print("Перевёрнутое предложение: ");
-        return reverse;
+        String message = "Исходное предложение: " + str + "\n" + "Перевёрнутое предложение: " + reverse;
+        return message;
     }
 
-    public Word consonantLetterSwapDefis() {
+    public String consonantLetterSwapDefis() {
         int i = 0;
         char c = str.charAt(i);
-        Word result = new Word();
-        String wrong = "a e i o u y A E I O U Y. у е э о а ы я и ю У Е Э О А Ы Я И Ю";
+        String result = "";
+        String wrong = "a e i o u y A E I O U Y. у е э о а ы я и ю У Е Э О А Ы Я И Ю 1 2 3 4 5 6 7 8 9 0 , / + = - _";
         while (i < len) {
             if (wrong.indexOf(c) < 0) {
                 c = '-';
             }
-            result.buildWord(c);
+            result += c;
             i++;
             c = str.charAt(i);
         }
-        result.buildWord('.');
-        System.out.println("Исходное предложение: " + str);
-        System.out.print("Изменённое предложение: ");
-        return result;
+        result += '.';
+        String message = "Исходное предложение: " + str + "\n" + "Изменённое предложение: " + result;
+        return message;
     }
 
-    public int findCountOfSameWord() {
+    public String findCountOfSameWord() {
         return findCountOfSameWord(5);
     }
 
-    public int findCountOfSameWord(int length) {
+    public String findCountOfSameWord(int length) {
+        if(str.charAt(len) != '.'){
+            str += ".";
+            len = str.length() - 1;
+        }
         int i = 0;
         char c = str.charAt(i);
         int k = 0;
@@ -86,9 +92,8 @@ public class Sentence {
                 c = str.charAt(i);
             }
         }
-        System.out.println("Исходное предложение: " + str);
-        System.out.print("Количество слов длинной " + length + " = ");
-        return k;
+        String message = "Исходное предложение: " + str + "\n" + "Количество слов длинной " + length + " = " + k;
+        return message;
     }
 
     @Override

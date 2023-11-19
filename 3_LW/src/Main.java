@@ -13,19 +13,23 @@ public class Main {
             switch (Menu.getChoicetodo()) {
                 case 1: // Подсчитать относительную частоту встречаемости числа в двумерном массиве
                     System.out.println("1 пункт");
-                    Menu.chooseInput(1);
+                    Menu.setSentenceormatrix(2);
+                    Menu.chooseInput();
                     break;
                 case 2: // Переставить слова в предложении в обратном порядке, соблюдая правила написания предложения
                     System.out.println("2 пункт");
-                    Menu.chooseInput(2);
+                    Menu.setSentenceormatrix(1);
+                    Menu.chooseInput();
                     break;
                 case 3: // Заменить все согласные буквы предложения на знак "-"
                     System.out.println("3 пункт");
-                    Menu.chooseInput(2);
+                    Menu.setSentenceormatrix(1);
+                    Menu.chooseInput();
                     break;
                 case 4: // Подсчитать количество слов заданной длинны в предложении
                     System.out.println("4 пункт");
-                    Menu.chooseInput(2);
+                    Menu.setSentenceormatrix(1);
+                    Menu.chooseInput();
                     break;
                 case 5: // Выход
                     System.out.println("Производится выход из программы");
