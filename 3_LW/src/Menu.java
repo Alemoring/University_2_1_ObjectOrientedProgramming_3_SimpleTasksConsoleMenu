@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -62,7 +64,7 @@ public class Menu {
         choicetodo = readChoice();
     }
 
-     public static void chooseInput() {
+     public static void chooseInput() throws IOException {
         choiceinput = -1;
         do{
             System.out.println("Как хотите осуществить ввод?");
@@ -80,7 +82,6 @@ public class Menu {
             choiceinput = readChoice();
             switch (choiceinput){
                 case 1: // Случайная матрица 4x4 или Предложение "May the force be with you."
-                    System.out.println("1 пункт");
                     if(sentenceormatrix == 1){
                         int length = 0;
                         if (choicetodo == 2){
@@ -106,7 +107,6 @@ public class Menu {
                     choiceinput = 5;
                     break;
                 case 2: // Из консоли
-                    System.out.println("2 пункт");
                     if(sentenceormatrix == 1){
                         String line = "";
                         int length = 0;
@@ -147,26 +147,88 @@ public class Menu {
                     choiceinput = 5;
                     break;
                 case 3: // Из текстового файла
-                    System.out.println("3 пункт");
                     if(sentenceormatrix == 1){
-                        System.out.println("Ещё не готово");
-                        Menu.chooseOutput(5, 0);
+                        System.out.print("Введите имя файла, из которого считать предложение: ");
+                        String name = readLine();
+                        Txt.setFilename(name);
+                        while(!Txt.setFilename(name)){
+                            System.out.print("Такого файла не существует, введите существующий файл: ");
+                            name = readLine();
+                            Txt.setFilename(name);
+                        }
+                        String line = "";
+                        int length = 0;
+                        if (choicetodo == 2){
+                            line = Txt.readLineFromFile();
+                        }
+                        else if (choicetodo == 3){
+                            line = Txt.readLineFromFile();
+                        }
+                        else {
+                            line = Txt.readLineFromFile();
+                            System.out.print("Введите исходную длину слова: ");
+                            length = readValue();
+                        }
+                        s = new Sentence(line);
+                        Menu.chooseOutput(length, 0);
                     }
                     else{
-                        System.out.println("Ещё не готово");
-                        Menu.chooseOutput(0, 5);
+                        System.out.print("Введите имя файла, из которого считать матрицу: ");
+                        String name = readLine();
+                        Txt.setFilename(name);
+                        while(!Txt.setFilename(name)){
+                            System.out.print("Такого файла не существует, введите существующий файл: ");
+                            name = readLine();
+                            Txt.setFilename(name);
+                        }
+                        int[][] matrix= Txt.readMatrixFromFile();
+                        m = new Matrix(matrix);
+                        System.out.print("Введите искомое число: ");
+                        int x = readValue();
+                        Menu.chooseOutput(0, x);
                     }
                     choiceinput = 5;
                     break;
                 case 4: // Из бинарного файла
-                    System.out.println("4 пункт");
                     if(sentenceormatrix == 1){
-                        System.out.println("Ещё не готово");
-                        Menu.chooseOutput(5, 0);
+                        System.out.print("Введите имя файла, из которого считать предложение: ");
+                        String name = readLine();
+                        Bin.setFilename(name);
+                        while(!Bin.setFilename(name)){
+                            System.out.print("Такого файла не существует, введите существующий файл: ");
+                            name = readLine();
+                            Bin.setFilename(name);
+                        }
+                        String line = "";
+                        int length = 0;
+                        if (choicetodo == 2){
+                            line = Bin.readLineFromFile();
+                        }
+                        else if (choicetodo == 3){
+                            line = Bin.readLineFromFile();
+                        }
+                        else {
+                            line = Bin.readLineFromFile();
+                            System.out.print("Введите исходную длину слова: ");
+                            length = readValue();
+                        }
+                        s = new Sentence(line);
+                        Menu.chooseOutput(length, 0);
                     }
                     else{
-                        System.out.println("Ещё не готово");
-                        Menu.chooseOutput(0, 5);
+                        System.out.print("Введите имя файла, из которого считать матрицу: ");
+                        String name = readLine();
+                        Bin.setFilename(name);
+                        while(!Bin.setFilename(name)){
+                            System.out.print("Такого файла не существует, введите существующий файл: ");
+                            name = readLine();
+                            Bin.setFilename(name);
+                        }
+                        int[][] matrix= Bin.readMatrixFromFile();
+                        m = new Matrix(matrix);
+                        System.out.print("Введите искомое число: ");
+                        int x = readValue();
+                        Menu.chooseOutput(0, x);
                     }
                     choiceinput = 5;
                     break;
@@ -179,7 +241,7 @@ public class Menu {
             }
         }while (choiceinput != 5);
     }
-     public static void chooseOutput(int length, int x){
+     public static void chooseOutput(int length, int x) throws IOException {
         choiceoutput = -1;
         while (choiceoutput != 4){
             System.out.println("Как хотите осуществить вывод результата?");
@@ -210,11 +272,71 @@ public class Menu {
                     choiceoutput = 4;
                     break;
                 case 2: // В текстовый файл
-                    System.out.println("2 пункт");
+                    if(sentenceormatrix == 1){
+                        System.out.print("Введите имя файла, в который записать результат: ");
+                        String name = readLine();
+                        Txt.setFilename(name);
+                        while(!Txt.setFilename(name)){
+                            System.out.print("Такого файла не существует, введите существующий файл: ");
+                            name = readLine();
+                            Txt.setFilename(name);
+                        }
+                        if (choicetodo == 2){
+                            Txt.writeLineToFile(s.reverseSentence());
+                        }
+                        else if (choicetodo == 3){
+                            Txt.writeLineToFile(s.consonantLetterSwapDefis());
+                        }
+                        else {
+                            Txt.writeLineToFile(s.findCountOfSameWord(length));
+                        }
+                    }
+                    else{
+                        System.out.print("Введите имя файла, в который записать матрицу, с результатом: ");
+                        String name = readLine();
+                        Txt.setFilename(name);
+                        while(!Txt.setFilename(name)){
+                            System.out.print("Такого файла не существует, введите существующий файл: ");
+                            name = readLine();
+                            Txt.setFilename(name);
+                        }
+                        Txt.writeMatrixToFile(m, m.findFrequency(x));
+                    }
+                    System.out.println();
                     choiceoutput = 4;
                     break;
                 case 3: // В бинарный файл
-                    System.out.println("3 пункт");
+                    if(sentenceormatrix == 1){
+                        System.out.print("Введите имя файла, в который записать результат: ");
+                        String name = readLine();
+                        Bin.setFilename(name);
+                        while(!Bin.setFilename(name)){
+                            System.out.print("Такого файла не существует, введите существующий файл: ");
+                            name = readLine();
+                            Bin.setFilename(name);
+                        }
+                        if (choicetodo == 2){
+                            Bin.writeLineToFile(s.reverseSentence());
+                        }
+                        else if (choicetodo == 3){
+                            Bin.writeLineToFile(s.consonantLetterSwapDefis());
+                        }
+                        else {
+                            Bin.writeLineToFile(s.findCountOfSameWord(length));
+                        }
+                    }
+                    else{
+                        System.out.print("Введите имя файла, в который записать матрицу, с результатом: ");
+                        String name = readLine();
+                        Bin.setFilename(name);
+                        while(!Bin.setFilename(name)){
+                            System.out.print("Такого файла не существует, введите существующий файл: ");
+                            name = readLine();
+                            Bin.setFilename(name);
+                        }
+                        Bin.writeMatrixToFile(m, m.findFrequency(x));
+                    }
+                    System.out.println();
                     choiceoutput = 4;
                     break;
                 case 4: // Вернуться на предыдущий пункт

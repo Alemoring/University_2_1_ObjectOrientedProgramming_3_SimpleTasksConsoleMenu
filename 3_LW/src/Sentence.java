@@ -20,7 +20,7 @@ public class Sentence {
         String reverse = "";
         char c = Character.toLowerCase(str.charAt(0));
         int i = 0;
-        while (i < len) {
+        while (i < len && c != '.') {
             Word word = new Word();
             while (c != ' ' && c != '.') {
                 word.buildWord(c);

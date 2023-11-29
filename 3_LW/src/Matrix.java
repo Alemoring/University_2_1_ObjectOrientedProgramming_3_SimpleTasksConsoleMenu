@@ -1,6 +1,7 @@
 public class Matrix {
     private int[][] matrix;
     private int len;
+    private int rank = 0;
 
     public Matrix() {
         matrix = new int[4][4];
@@ -10,11 +11,13 @@ public class Matrix {
             }
         }
         len = 16;
+        rank = 4;
     }
 
     public Matrix(int rows, int columns) {
         matrix = new int[rows][columns];
         len = rows * columns;
+        rank = rows;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 matrix[i][j] = (int) (((Math.random() * 100) % 10) + 1);
@@ -26,6 +29,7 @@ public class Matrix {
         matrix = new int[m.length][m[0].length];
         for (int i = 0; i < m.length; i++) {
             len += m[i].length;
+            rank += 1;
             for (int j = 0; j < m[i].length; j++) {
                 matrix[i][j] = m[i][j];
             }
@@ -33,6 +37,7 @@ public class Matrix {
     }
     public Matrix(Matrix m) {
         len = m.len;
+        rank = m.rank;
         matrix = new int[m.matrix.length][m.matrix[0].length];
         for (int i = 0; i < m.matrix.length; i++) {
             for (int j = 0; j < m.matrix[i].length; j++) {
@@ -64,5 +69,16 @@ public class Matrix {
             System.out.println();
         }
     }
-
+    public int[][] getMatrix(){
+        return matrix;
+    }
+    public int getNumberMatrix(int i, int j){
+        return matrix[i][j];
+    }
+    public int getLen(){
+        return len;
+    }
+    public int getRank(){
+        return rank;
+    }
 }
