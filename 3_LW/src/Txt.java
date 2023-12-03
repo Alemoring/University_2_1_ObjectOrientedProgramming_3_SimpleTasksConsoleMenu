@@ -98,13 +98,13 @@ public class Txt {
         name += ".txt";
         filename = new File(name);
         try {
-            if (filename.createNewFile()){
-                System.out.println("Файл успешно создан!");
-                return true;
+            if (filename.exists()){
+                System.out.println("Файл уже существует TxT");
             } else{
-                System.out.println("Файл уже существует");
-                return true;
+                filename.createNewFile();
+                System.out.println("Файл успешно создан");
             }
+            return true;
         }catch (IOException e){
             System.out.println("Ошибка при создании файла");
             return false;

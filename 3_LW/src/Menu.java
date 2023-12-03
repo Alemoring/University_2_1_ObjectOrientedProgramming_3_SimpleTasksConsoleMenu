@@ -51,6 +51,25 @@ public class Menu {
         }
         return readed;
     }
+    public static String readName(String name, int binOrtxt){
+        if(binOrtxt == 1){
+            boolean flag = Txt.setFilename(name);
+            while(!flag){
+                System.out.print("Такого файла не существует, введите существующий файл: ");
+                name = readLine();
+                flag = Txt.setFilename(name);
+            }
+            return name;
+        }else {
+            boolean flag = Bin.setFilename(name);
+            while(!flag){
+                System.out.print("Такого файла не существует, введите существующий файл: ");
+                name = readLine();
+                flag = Bin.setFilename(name);
+            }
+            return name;
+        }
+    }
 
      public static void start() {
         System.out.println("Приветствую!");
@@ -150,12 +169,7 @@ public class Menu {
                     if(sentenceormatrix == 1){
                         System.out.print("Введите имя файла, из которого считать предложение: ");
                         String name = readLine();
-                        Txt.setFilename(name);
-                        while(!Txt.setFilename(name)){
-                            System.out.print("Такого файла не существует, введите существующий файл: ");
-                            name = readLine();
-                            Txt.setFilename(name);
-                        }
+                        name = readName(name, 1);
                         String line = "";
                         int length = 0;
                         if (choicetodo == 2){
@@ -175,12 +189,7 @@ public class Menu {
                     else{
                         System.out.print("Введите имя файла, из которого считать матрицу: ");
                         String name = readLine();
-                        Txt.setFilename(name);
-                        while(!Txt.setFilename(name)){
-                            System.out.print("Такого файла не существует, введите существующий файл: ");
-                            name = readLine();
-                            Txt.setFilename(name);
-                        }
+                        name = readName(name, 1);
                         int[][] matrix= Txt.readMatrixFromFile();
                         m = new Matrix(matrix);
                         System.out.print("Введите искомое число: ");
@@ -193,12 +202,7 @@ public class Menu {
                     if(sentenceormatrix == 1){
                         System.out.print("Введите имя файла, из которого считать предложение: ");
                         String name = readLine();
-                        Bin.setFilename(name);
-                        while(!Bin.setFilename(name)){
-                            System.out.print("Такого файла не существует, введите существующий файл: ");
-                            name = readLine();
-                            Bin.setFilename(name);
-                        }
+                        name = readName(name, 2);
                         String line = "";
                         int length = 0;
                         if (choicetodo == 2){
@@ -218,12 +222,7 @@ public class Menu {
                     else{
                         System.out.print("Введите имя файла, из которого считать матрицу: ");
                         String name = readLine();
-                        Bin.setFilename(name);
-                        while(!Bin.setFilename(name)){
-                            System.out.print("Такого файла не существует, введите существующий файл: ");
-                            name = readLine();
-                            Bin.setFilename(name);
-                        }
+                        name = readName(name, 2);
                         int[][] matrix= Bin.readMatrixFromFile();
                         m = new Matrix(matrix);
                         System.out.print("Введите искомое число: ");
@@ -281,12 +280,7 @@ public class Menu {
                         if(sentenceormatrix == 1){
                             System.out.print("Введите имя файла, в который записать результат: ");
                             String name = readLine();
-                            Txt.setFilename(name);
-                            while(!Txt.setFilename(name)){
-                                System.out.print("Такого файла не существует, введите существующий файл: ");
-                                name = readLine();
-                                Txt.setFilename(name);
-                            }
+                            name = readName(name, 1);
                             if (choicetodo == 2){
                                 Txt.writeLineToFile(s.reverseSentence());
                             }
@@ -300,12 +294,7 @@ public class Menu {
                         else{
                             System.out.print("Введите имя файла, в который записать матрицу, с результатом: ");
                             String name = readLine();
-                            Txt.setFilename(name);
-                            while(!Txt.setFilename(name)){
-                                System.out.print("Такого файла не существует, введите существующий файл: ");
-                                name = readLine();
-                                Txt.setFilename(name);
-                            }
+                            name = readName(name, 1);
                             Txt.writeMatrixToFile(m, m.findFrequency(x));
                         }
                     }
@@ -313,12 +302,7 @@ public class Menu {
                         if(sentenceormatrix == 1){
                             System.out.print("Введите имя файла, в который записать результат: ");
                             String name = readLine();
-                            Bin.setFilename(name);
-                            while(!Bin.setFilename(name)){
-                                System.out.print("Такого файла не существует, введите существующий файл: ");
-                                name = readLine();
-                                Bin.setFilename(name);
-                            }
+                            name = readName(name, 2);
                             if (choicetodo == 2){
                                 Bin.writeLineToFile(s.reverseSentence());
                             }
@@ -332,12 +316,7 @@ public class Menu {
                         else{
                             System.out.print("Введите имя файла, в который записать матрицу, с результатом: ");
                             String name = readLine();
-                            Bin.setFilename(name);
-                            while(!Bin.setFilename(name)){
-                                System.out.print("Такого файла не существует, введите существующий файл: ");
-                                name = readLine();
-                                Bin.setFilename(name);
-                            }
+                            name = readName(name, 2);
                             Bin.writeMatrixToFile(m, m.findFrequency(x));
                         }
                     }
@@ -348,12 +327,7 @@ public class Menu {
                     if(sentenceormatrix == 1){
                         System.out.print("Введите имя файла, в который записать результат: ");
                         String name = readLine();
-                        Txt.setFilename(name);
-                        while(!Txt.setFilename(name)){
-                            System.out.print("Такого файла не существует, введите существующий файл: ");
-                            name = readLine();
-                            Txt.setFilename(name);
-                        }
+                        name = readName(name, 1);
                         if (choicetodo == 2){
                             Txt.writeLineToFile(s.reverseSentence());
                         }
@@ -367,12 +341,7 @@ public class Menu {
                     else{
                         System.out.print("Введите имя файла, в который записать матрицу, с результатом: ");
                         String name = readLine();
-                        Txt.setFilename(name);
-                        while(!Txt.setFilename(name)){
-                            System.out.print("Такого файла не существует, введите существующий файл: ");
-                            name = readLine();
-                            Txt.setFilename(name);
-                        }
+                        name = readName(name, 1);
                         Txt.writeMatrixToFile(m, m.findFrequency(x));
                     }
                     System.out.println();
@@ -382,12 +351,7 @@ public class Menu {
                     if(sentenceormatrix == 1){
                         System.out.print("Введите имя файла, в который записать результат: ");
                         String name = readLine();
-                        Bin.setFilename(name);
-                        while(!Bin.setFilename(name)){
-                            System.out.print("Такого файла не существует, введите существующий файл: ");
-                            name = readLine();
-                            Bin.setFilename(name);
-                        }
+                        name = readName(name, 2);
                         if (choicetodo == 2){
                             Bin.writeLineToFile(s.reverseSentence());
                         }
@@ -401,12 +365,7 @@ public class Menu {
                     else{
                         System.out.print("Введите имя файла, в который записать матрицу, с результатом: ");
                         String name = readLine();
-                        Bin.setFilename(name);
-                        while(!Bin.setFilename(name)){
-                            System.out.print("Такого файла не существует, введите существующий файл: ");
-                            name = readLine();
-                            Bin.setFilename(name);
-                        }
+                        name = readName(name, 2);
                         Bin.writeMatrixToFile(m, m.findFrequency(x));
                     }
                     System.out.println();
