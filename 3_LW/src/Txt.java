@@ -95,10 +95,18 @@ public class Txt {
         writer.close();
     }
     public static boolean setFilename(String name){
+        name += ".txt";
         filename = new File(name);
-        if (filename.exists()) {
-            return true;
-        } else {
+        try {
+            if (filename.createNewFile()){
+                System.out.println("Файл успешно создан!");
+                return true;
+            } else{
+                System.out.println("Файл уже существует");
+                return true;
+            }
+        }catch (IOException e){
+            System.out.println("Ошибка при создании файла");
             return false;
         }
     }

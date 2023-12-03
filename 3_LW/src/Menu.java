@@ -268,6 +268,79 @@ public class Menu {
                         m.print();
                         System.out.println(m.findFrequency(x) + "%");
                     }
+
+                    System.out.println("Хотите сохранить результат в файл?");
+                    System.out.println("1) Да, в текстовый файл");
+                    System.out.println("2) Да, в бинарный файл");
+                    System.out.println("3) Нет");
+                    int flag = 0;
+                    while (flag != 1 && flag != 2 && flag != 3){
+                        flag = readValue();
+                    }
+                    if (flag == 1){
+                        if(sentenceormatrix == 1){
+                            System.out.print("Введите имя файла, в который записать результат: ");
+                            String name = readLine();
+                            Txt.setFilename(name);
+                            while(!Txt.setFilename(name)){
+                                System.out.print("Такого файла не существует, введите существующий файл: ");
+                                name = readLine();
+                                Txt.setFilename(name);
+                            }
+                            if (choicetodo == 2){
+                                Txt.writeLineToFile(s.reverseSentence());
+                            }
+                            else if (choicetodo == 3){
+                                Txt.writeLineToFile(s.consonantLetterSwapDefis());
+                            }
+                            else {
+                                Txt.writeLineToFile(s.findCountOfSameWord(length));
+                            }
+                        }
+                        else{
+                            System.out.print("Введите имя файла, в который записать матрицу, с результатом: ");
+                            String name = readLine();
+                            Txt.setFilename(name);
+                            while(!Txt.setFilename(name)){
+                                System.out.print("Такого файла не существует, введите существующий файл: ");
+                                name = readLine();
+                                Txt.setFilename(name);
+                            }
+                            Txt.writeMatrixToFile(m, m.findFrequency(x));
+                        }
+                    }
+                    else if (flag == 2) {
+                        if(sentenceormatrix == 1){
+                            System.out.print("Введите имя файла, в который записать результат: ");
+                            String name = readLine();
+                            Bin.setFilename(name);
+                            while(!Bin.setFilename(name)){
+                                System.out.print("Такого файла не существует, введите существующий файл: ");
+                                name = readLine();
+                                Bin.setFilename(name);
+                            }
+                            if (choicetodo == 2){
+                                Bin.writeLineToFile(s.reverseSentence());
+                            }
+                            else if (choicetodo == 3){
+                                Bin.writeLineToFile(s.consonantLetterSwapDefis());
+                            }
+                            else {
+                                Bin.writeLineToFile(s.findCountOfSameWord(length));
+                            }
+                        }
+                        else{
+                            System.out.print("Введите имя файла, в который записать матрицу, с результатом: ");
+                            String name = readLine();
+                            Bin.setFilename(name);
+                            while(!Bin.setFilename(name)){
+                                System.out.print("Такого файла не существует, введите существующий файл: ");
+                                name = readLine();
+                                Bin.setFilename(name);
+                            }
+                            Bin.writeMatrixToFile(m, m.findFrequency(x));
+                        }
+                    }
                     System.out.println();
                     choiceoutput = 4;
                     break;

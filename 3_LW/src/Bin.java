@@ -5,6 +5,11 @@ public class Bin {
     public static int[][] readMatrixFromFile() {
         try (BufferedInputStream reader = new BufferedInputStream(new FileInputStream(filename))) {
             byte[] buffer = new byte[1024];
+            int firstbyte = reader.read();
+            if(firstbyte != 1){
+                System.out.println("В файле записан текст :(");
+                return new int[][]{{0}};
+            }
             int bytesRead = reader.read(buffer);
             int rows = buffer[0];
             int cols = buffer[1];
@@ -26,6 +31,7 @@ public class Bin {
         int cols = matrix.getRank();
 
         try (BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(filename))) {
+            writer.write(1);
             writer.write(rows);
             writer.write(cols);
             for (int i = 0; i < rows; i++) {
@@ -42,6 +48,11 @@ public class Bin {
     public static String readLineFromFile() {
         try (BufferedInputStream reader = new BufferedInputStream(new FileInputStream(filename))) {
             byte[] buffer = new byte[1024];
+            int firstbyte = reader.read();
+            if(firstbyte != 2){
+                System.out.println("В файле записана матрица :(");
+                return "";
+            }
             int bytesRead = reader.read(buffer);
             return new String(buffer, 0, bytesRead);
         } catch (IOException e) {
@@ -49,23 +60,9 @@ public class Bin {
             return "";
         }
     }
-    /*StringBuilder result = new StringBuilder();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            result.append(line).append("\n");
-        }
-        return result.toString();
-    }catch (FileNotFoundException e){
-        System.out.println("Такого файла не существует");
-        return "";
-    } catch (IOException e) {
-        System.out.println("Ошибка чтения из файла " + filename + ": " + e.getMessage());
-        return "";
-    }*/
     public static void writeLineToFile (String text){
         try (BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(filename))) {
+            writer.write(2);
             writer.write(text.getBytes());
             writer.close();
         } catch (IOException e) {
@@ -73,10 +70,18 @@ public class Bin {
         }
     }
     public static boolean setFilename(String name){
+        name += ".bin";
         filename = new File(name);
-        if (filename.exists()) {
-            return true;
-        } else {
+        try {
+            if (filename.createNewFile()){
+                System.out.println("Файл успешно создан!");
+                return true;
+            } else{
+                System.out.println("Файл уже существует");
+                return true;
+            }
+        }catch (IOException e){
+            System.out.println("Ошибка при создании файла");
             return false;
         }
     }
